@@ -27,6 +27,7 @@ namespace SchoolMgmt.SchoolMgmtDAL
         public int ContactNumber{get; set;}
         [MaxLength(50)]
         public string Nationality{get; set;}
+        public AcademicClasses AcademicClasseID {get; set;}
         public int CreatedBy { get; set; }
         [Column(TypeName = "date")]
         public DateTime CreatedDate { get; set; }

@@ -14,9 +14,7 @@ namespace SchoolMgmt.SchoolMgmtDAL
         public DbSet<StudentDetail> StudentDetails {get; set;} 
         public DbSet<ParentDtails> ParentDetails { get; set; }
         public DbSet<LocalGuardian> LocalGuardians{get; set;}
-        public DbSet<AcademicClasses> AcademicClasses{get; set;}
-        public DbSet<StudentToClassRelation> StudentToClassRelations {get; set;}
-        
+        public DbSet<AcademicClasses> AcademicClasses{get; set;}        
     }
 
 }
