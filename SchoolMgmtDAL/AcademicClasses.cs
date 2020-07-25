@@ -7,11 +7,16 @@ namespace SchoolMgmt.SchoolMgmtDAL
     public class AcademicClasses
     {
         [Key]
+        [Required]
         public int AcademicClassID { get; set; }
         public string ClassName { get; set; }
         public string ClassStream { get; set; }
         public string ClassSubjectCombination { get; set; }
+        
+        [Required]
         public int CreatedBy { get; set; }
+        
+        [Required]
         [Column(TypeName = "date")]
         public DateTime CreatedDate { get; set; }
         public int? UpdatedBy { get; set; }

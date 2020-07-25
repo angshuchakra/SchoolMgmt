@@ -102,6 +102,7 @@ namespace SchoolMgmt.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdharNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CreatedBy")
@@ -111,15 +112,14 @@ namespace SchoolMgmt.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("FathersName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("LocalGuardianID")
-                        .HasColumnType("int");
 
                     b.Property<string>("MothersName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParentAddress")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ParentContactNumer")
@@ -136,8 +136,6 @@ namespace SchoolMgmt.Migrations
 
                     b.HasKey("ParentID");
 
-                    b.HasIndex("LocalGuardianID");
-
                     b.ToTable("ParentDetails");
                 });
 
@@ -148,7 +146,7 @@ namespace SchoolMgmt.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AcademicClasseIDAcademicClassID")
+                    b.Property<int>("AcademicClassID")
                         .HasColumnType("int");
 
                     b.Property<int>("ContactNumber")
@@ -175,22 +173,16 @@ namespace SchoolMgmt.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int?>("ParentDtailsParentID")
+                    b.Property<int>("ParentID")
                         .HasColumnType("int");
 
                     b.Property<string>("PermanentAddress")
+                        .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
-                    b.Property<int>("StudentAge")
-                        .HasColumnType("int")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("StudentClass")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
                     b.Property<string>("StudentName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
@@ -209,35 +201,32 @@ namespace SchoolMgmt.Migrations
 
                     b.HasKey("StudentID");
 
-                    b.HasIndex("AcademicClasseIDAcademicClassID");
+                    b.HasIndex("AcademicClassID");
 
                     b.HasIndex("LocalGuardianID");
 
-                    b.HasIndex("ParentDtailsParentID");
+                    b.HasIndex("ParentID");
 
                     b.ToTable("StudentDetails");
                 });
 
-            modelBuilder.Entity("SchoolMgmt.SchoolMgmtDAL.ParentDtails", b =>
-                {
-                    b.HasOne("SchoolMgmt.SchoolMgmtDAL.LocalGuardian", null)
-                        .WithMany("ParentDtails")
-                        .HasForeignKey("LocalGuardianID");
-                });
-
             modelBuilder.Entity("SchoolMgmt.SchoolMgmtDAL.StudentDetail", b =>
                 {
-                    b.HasOne("SchoolMgmt.SchoolMgmtDAL.AcademicClasses", "AcademicClasseID")
+                    b.HasOne("SchoolMgmt.SchoolMgmtDAL.AcademicClasses", "AcademicClass")
                         .WithMany()
-                        .HasForeignKey("AcademicClasseIDAcademicClassID");
+                        .HasForeignKey("AcademicClassID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("SchoolMgmt.SchoolMgmtDAL.LocalGuardian", null)
-                        .WithMany("Student")
+                    b.HasOne("SchoolMgmt.SchoolMgmtDAL.LocalGuardian", "LocalGuardian")
+                        .WithMany()
                         .HasForeignKey("LocalGuardianID");
 
-                    b.HasOne("SchoolMgmt.SchoolMgmtDAL.ParentDtails", null)
-                        .WithMany("Student")
-                        .HasForeignKey("ParentDtailsParentID");
+                    b.HasOne("SchoolMgmt.SchoolMgmtDAL.ParentDtails", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
