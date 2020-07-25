@@ -15,8 +15,6 @@ namespace SchoolMgmt.SchoolMgmtDAL
         public string LGOccupation { get; set; }
         public string RelationWithParent { get; set; }
         public string AdharNumber { get; set; }
-        public List<StudentDetail> Student {get; set;}
-        public List<ParentDtails> ParentDtails{get; set;}
         public int CreatedBy { get; set; }
         [Column(TypeName = "date")]
         public DateTime CreatedDate { get; set; }

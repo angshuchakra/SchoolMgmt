@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SchoolMgmt.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class ReIteration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,27 +54,20 @@ namespace SchoolMgmt.Migrations
                 {
                     ParentID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FathersName = table.Column<string>(nullable: true),
+                    FathersName = table.Column<string>(nullable: false),
                     MothersName = table.Column<string>(nullable: true),
-                    ParentAddress = table.Column<string>(nullable: true),
+                    ParentAddress = table.Column<string>(nullable: false),
                     ParentContactNumer = table.Column<int>(nullable: false),
                     ParentOccupation = table.Column<string>(nullable: true),
-                    AdharNumber = table.Column<string>(nullable: true),
+                    AdharNumber = table.Column<string>(nullable: false),
                     CreatedBy = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "date", nullable: false),
                     UpdatedBy = table.Column<int>(nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "date", nullable: true),
-                    LocalGuardianID = table.Column<int>(nullable: true)
+                    UpdatedDate = table.Column<DateTime>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ParentDetails", x => x.ParentID);
-                    table.ForeignKey(
-                        name: "FK_ParentDetails_LocalGuardians_LocalGuardianID",
-                        column: x => x.LocalGuardianID,
-                        principalTable: "LocalGuardians",
-                        principalColumn: "LocalGuardianID",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,32 +77,30 @@ namespace SchoolMgmt.Migrations
                     StudentID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StudentRollNumber = table.Column<int>(nullable: false),
-                    StudentClass = table.Column<string>(maxLength: 20, nullable: true),
-                    StudentName = table.Column<string>(maxLength: 100, nullable: true),
+                    StudentName = table.Column<string>(maxLength: 100, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "date", nullable: false),
-                    StudentAge = table.Column<int>(maxLength: 20, nullable: false),
                     studentSex = table.Column<string>(maxLength: 100, nullable: true),
                     CurrentAddress = table.Column<string>(maxLength: 500, nullable: true),
-                    PermanentAddress = table.Column<string>(maxLength: 500, nullable: true),
+                    PermanentAddress = table.Column<string>(maxLength: 500, nullable: false),
                     ContactNumber = table.Column<int>(maxLength: 15, nullable: false),
                     Nationality = table.Column<string>(maxLength: 50, nullable: true),
-                    AcademicClasseIDAcademicClassID = table.Column<int>(nullable: true),
+                    AcademicClassID = table.Column<int>(nullable: false),
+                    ParentID = table.Column<int>(nullable: false),
+                    LocalGuardianID = table.Column<int>(nullable: true),
                     CreatedBy = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "date", nullable: false),
                     UpdatedBy = table.Column<int>(nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "date", nullable: true),
-                    LocalGuardianID = table.Column<int>(nullable: true),
-                    ParentDtailsParentID = table.Column<int>(nullable: true)
+                    UpdatedDate = table.Column<DateTime>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StudentDetails", x => x.StudentID);
                     table.ForeignKey(
-                        name: "FK_StudentDetails_AcademicClasses_AcademicClasseIDAcademicClassID",
-                        column: x => x.AcademicClasseIDAcademicClassID,
+                        name: "FK_StudentDetails_AcademicClasses_AcademicClassID",
+                        column: x => x.AcademicClassID,
                         principalTable: "AcademicClasses",
                         principalColumn: "AcademicClassID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StudentDetails_LocalGuardians_LocalGuardianID",
                         column: x => x.LocalGuardianID,
@@ -117,22 +108,17 @@ namespace SchoolMgmt.Migrations
                         principalColumn: "LocalGuardianID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_StudentDetails_ParentDetails_ParentDtailsParentID",
-                        column: x => x.ParentDtailsParentID,
+                        name: "FK_StudentDetails_ParentDetails_ParentID",
+                        column: x => x.ParentID,
                         principalTable: "ParentDetails",
                         principalColumn: "ParentID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ParentDetails_LocalGuardianID",
-                table: "ParentDetails",
-                column: "LocalGuardianID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentDetails_AcademicClasseIDAcademicClassID",
+                name: "IX_StudentDetails_AcademicClassID",
                 table: "StudentDetails",
-                column: "AcademicClasseIDAcademicClassID");
+                column: "AcademicClassID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentDetails_LocalGuardianID",
@@ -140,9 +126,9 @@ namespace SchoolMgmt.Migrations
                 column: "LocalGuardianID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentDetails_ParentDtailsParentID",
+                name: "IX_StudentDetails_ParentID",
                 table: "StudentDetails",
-                column: "ParentDtailsParentID");
+                column: "ParentID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -154,10 +140,10 @@ namespace SchoolMgmt.Migrations
                 name: "AcademicClasses");
 
             migrationBuilder.DropTable(
-                name: "ParentDetails");
+                name: "LocalGuardians");
 
             migrationBuilder.DropTable(
-                name: "LocalGuardians");
+                name: "ParentDetails");
         }
     }
 }

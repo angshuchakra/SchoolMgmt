@@ -1,8 +1,11 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using SchoolMgmt.SchoolMgmtDAL;
 
 namespace SchoolMgmt.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class StudentController:Controller
     {
         private SchoolMgmtDB schoolDBContext;
@@ -14,10 +17,17 @@ namespace SchoolMgmt.Controllers
         [HttpPost]
         public IActionResult Create(StudentDetail studentDetail)  
         {  
-            schoolDBContext.StudentDetails.Add(studentDetail);  
-            var saveResult = schoolDBContext.SaveChanges();  
-            if(saveResult<1){
-                return BadRequest();
+            try
+            {
+                schoolDBContext.StudentDetails.Add(studentDetail);  
+                var saveResult = schoolDBContext.SaveChanges();  
+                if(saveResult<1){
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
             return Ok();
         }  
