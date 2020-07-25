@@ -32,7 +32,7 @@ namespace SchoolMgmt.SchoolMgmtDAL
         [MaxLength(500)]
         [Required]
         public string PermanentAddress{get; set;}
-        [MaxLength(15)]
+        
         public int ContactNumber{get; set;}
         [MaxLength(50)]
         public string Nationality{get; set;}
